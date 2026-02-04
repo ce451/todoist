@@ -100,6 +100,24 @@ The filter implementation uses a **yacc-based parser** for Todoist's filter synt
 - Supports date expressions, project/label filters, boolean operators (`&`, `|`, `!`)
 - Filter syntax examples: `(overdue | today) & p1`, `#ProjectName`, `@LabelName`
 
+### Async Background Sync Pattern
+
+Task operations (add, close, delete) use non-blocking async sync:
+
+1. Update local cache immediately (`cache.json`)
+2. Queue command in pipeline cache (`pipeline-cache.json`)
+3. Return to user immediately
+4. Spawn background subprocess (`__background_sync__`) to sync with Todoist API
+
+```
+User Command → Local Cache Update → Pipeline Queue → Background Sync → API
+```
+
+Key files:
+- `background_sync.go` - Background worker process
+- `pipeline_cache.go` - Thread-safe operation queue with mutex locking
+- `add.go`, `close.go`, `delete.go` - Implement the async pattern
+
 ### Configuration and Caching
 
 - **Config**: Stored in `$HOME/.config/todoist/config.json` (XDG Base Directory compliant)
@@ -109,6 +127,12 @@ The filter implementation uses a **yacc-based parser** for Todoist's filter synt
 - **Cache**: Stored in `$HOME/.cache/todoist/cache.json`
   - Full sync from Todoist API using sync token
   - Enables offline browsing and faster startup
+
+- **Pipeline Cache**: `$HOME/.cache/todoist/pipeline-cache.json`
+  - Pending operations queue for async sync
+
+- **Sync Log**: `$HOME/.cache/todoist/background-sync.log`
+  - Background sync process output
 
 ### CLI Commands
 
