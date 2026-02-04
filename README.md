@@ -3,6 +3,20 @@ Todoist CLI client
 
 [Todoist](https://todoist.com/) CLI Client, written in Golang.
 
+---
+
+## ⚠️ IMPORTANT: Upgrade Required Before February 10, 2026 ⚠️
+
+**All users must upgrade to v0.23 or later.** Older versions will stop working on February 10, 2026 when Todoist shuts down the Todoist Sync API v9 and Todoist REST API v2.
+
+After upgrading:
+1. Run `todoist sync` to refresh your local cache
+2. Note that task/project IDs are now alphanumeric instead of numeric
+
+For more information, see the [official Todoist API announcement](https://groups.google.com/a/doist.com/g/todoist-api/c/brwENjfT_tk).
+
+---
+
 ## Description
 
 [Todoist](https://todoist.com/) is a cool TODO list web application.
@@ -97,7 +111,7 @@ $ brew install sachaos/todoist/todoist
 
 ### AUR
 
-* [todoist](https://aur.archlinux.org/packages/todoist/)
+* [todoist-bin](https://aur.archlinux.org/packages/todoist-bin/)
 * [todoist-git](https://aur.archlinux.org/packages/todoist-git/)
 
 ### Nix/NixOS
@@ -137,7 +151,7 @@ $ make install
 
 When you run `todoist` first time, you will be asked your Todoist API token.
 Please input Todoist API token and register it. In order to get your API token
-go to [https://todoist.com/prefs/integrations](https://todoist.com/prefs/integrations)
+go to [https://app.todoist.com/app/settings/integrations/developer](https://app.todoist.com/app/settings/integrations/developer)
 
 ### Sync
 
